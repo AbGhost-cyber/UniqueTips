@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "241492416415",
+    "firebase_url": "https://uniquetips-942c4.firebaseio.com",
+    "project_id": "uniquetips-942c4",
+    "storage_bucket": "uniquetips-942c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:241492416415:android:38f1db883bd4524451cfaa",
+        "android_client_info": {
+          "package_name": "com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "241492416415-k3hqv4vvshkod9a6jqhsu0o24mgn1cif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAf_3cqgyrbpPSI-wlXA1v10sJqUWo6EDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "241492416415-k3hqv4vvshkod9a6jqhsu0o24mgn1cif.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

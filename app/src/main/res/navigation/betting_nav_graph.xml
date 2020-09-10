@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/betting_nav_graph"
+    app:startDestination="@id/vipTipsFragment">
+
+
+    <fragment
+        android:id="@+id/vipTipsFragment"
+        android:name="com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.ui.fragments.VipTipsFragment"
+        android:label="Vip Tips"
+        tools:layout="@layout/tips_home_layout">
+        <action
+            android:id="@+id/action_vipTipsFragment_to_vipMatchesFragment"
+            app:destination="@id/vipMatchesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/vipMatchesFragment"
+        android:name="com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.ui.fragments.VipMatchesFragment"
+        android:label="VipMatchesFragment"
+        tools:layout="@layout/vip_matches_layout">
+        <argument
+            android:name="VipTipName"
+            app:argType="string" />
+    </fragment>
+</navigation>

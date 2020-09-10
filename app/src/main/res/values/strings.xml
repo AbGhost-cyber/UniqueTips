@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">UniqueTips-Betting Tips,Fixed Matches,Fixed odds</string>
+    <string name="refresh_fb">REFRESH</string>
+    <string name="msg_token_fmt">value gotten</string>
+    <string name="msg_subscribed">subbed</string>
+    <string name="msg_subscribe_failed">notSubbed</string>
+    <string name="open_settings">open settings</string>
+</resources>

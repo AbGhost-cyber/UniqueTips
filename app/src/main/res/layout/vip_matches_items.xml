@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    app:cardElevation="1dp"
+    android:layout_marginBottom="5dp"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/siblingCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorPrimaryDark">
+
+            <TextView
+                android:id="@+id/datePlusVipNamePlusOddPlusWon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <TextView
+            android:id="@+id/league_Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/siblingCardView"
+            android:layout_centerInParent="true"
+            android:background="@drawable/custom_bg"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:padding="20dp"
+            android:textSize="17sp"
+            android:textAlignment="center"
+            android:text="Turkey 1.League Play Off-2020"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/siblingCardView"
+            android:layout_alignParentEnd="true"
+            android:padding="20dp"
+            android:id="@+id/matchState"
+            android:src="@drawable/match_won" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textSize="17sp"
+            android:background="@drawable/custom_bg"
+            android:id="@+id/teams"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:padding="20dp"
+            android:layout_centerInParent="true"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:layout_below="@id/league_Name"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textColor="@color/colorPrimaryDark"
+            android:padding="20dp"
+            android:id="@+id/fixtures_inOdds"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textAlignment="center"
+            android:layout_centerInParent="true"
+            android:textSize="17sp"
+            android:layout_below="@id/teams"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:padding="20dp"
+            android:id="@+id/odds"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:text="26"
+            android:textColor="@android:color/black"
+            android:layout_alignParentEnd="true"
+            android:textSize="17sp"
+            android:layout_below="@id/league_Name"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/HT_FT_scores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/teams"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:padding="20dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

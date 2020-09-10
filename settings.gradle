@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "UniqueTips-Betting Tips,Fixed Matches,Fixed odds"
