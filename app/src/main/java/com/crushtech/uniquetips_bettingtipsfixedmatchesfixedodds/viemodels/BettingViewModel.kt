@@ -8,7 +8,7 @@ import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.models.VipMatch
 import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.repos.BettingRepos
 
 
-class BettingViewmodel(
+class BettingViewModel(
     private var repos: BettingRepos,
     private val app: Application
 ) : AndroidViewModel(app) {

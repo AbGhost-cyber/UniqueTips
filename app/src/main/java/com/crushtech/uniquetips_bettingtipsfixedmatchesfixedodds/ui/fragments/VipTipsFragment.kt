@@ -64,6 +64,13 @@ class VipTipsFragment : Fragment(R.layout.tips_home_layout) {
 
         vipItemsAdapter.setOnItemClickListener {
             vipItemsAnimation.start()
+            val bundle = Bundle().apply {
+                putSerializable("VipTipName", it.name)
+            }
+            findNavController().navigate(
+                R.id.action_vipTipsFragment_to_vipMatchesFragment,
+                bundle
+            )
         }
         showSettings()
     }

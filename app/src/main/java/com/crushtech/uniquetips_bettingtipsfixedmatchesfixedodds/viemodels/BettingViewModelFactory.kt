@@ -9,6 +9,6 @@ import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.repos.BettingRe
 class BettingViewModelFactory(private val repos: BettingRepos, private val app:Application)
     :ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return BettingViewmodel(repos,app) as T
+        return BettingViewModel(repos, app) as T
     }
 }

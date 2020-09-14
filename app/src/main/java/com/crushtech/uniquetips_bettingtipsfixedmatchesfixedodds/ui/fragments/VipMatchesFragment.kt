@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
@@ -17,7 +18,7 @@ import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.R
 import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.adapter.VipMatchesItemAdapter
 import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.models.VipMatchesItem
 import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.ui.BettingMainActivity
-import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.viemodels.BettingViewmodel
+import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.viemodels.BettingViewModel
 import com.muddzdev.styleabletoastlibrary.StyleableToast
 import kotlinx.android.synthetic.main.vip_matches_layout.*
 import kotlinx.coroutines.Dispatchers
@@ -25,27 +26,30 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class VipMatchesFragment : Fragment(R.layout.vip_matches_layout){
+class VipMatchesFragment : Fragment(R.layout.vip_matches_layout) {
     private var vipTipName = ""
-    private lateinit var bettingViewmodel: BettingViewmodel
+    private lateinit var bettingViewModel: BettingViewModel
     private lateinit var vipMatchesItemsAdapter: VipMatchesItemAdapter
     private val args: VipMatchesFragmentArgs by navArgs()
     private lateinit var path: String
+    private var toast: StyleableToast? = null
     private lateinit var splitPath: List<String>
-    private lateinit var sumofSplittedPath: String
+    private lateinit var sumOfSplitPath: String
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vipTipName = args.VipTipName
+        (activity as BettingMainActivity).supportActionBar?.show()
         (activity as BettingMainActivity).supportActionBar?.title = vipTipName
         path = (activity as BettingMainActivity).supportActionBar?.title.toString()
 
         //removes space between the tips
-        sumofSplittedPath = ""
+        sumOfSplitPath = ""
         splitPath = path.split(' ')
         for (paths in splitPath.indices) {
-            sumofSplittedPath += splitPath[paths]
+            sumOfSplitPath += splitPath[paths]
         }
-        bettingViewmodel = (activity as BettingMainActivity).bettingViewModel
+        bettingViewModel = (activity as BettingMainActivity).bettingViewModel
         vipMatchesItemsAdapter = VipMatchesItemAdapter()
 
         vipMatchesRV.apply {
@@ -53,11 +57,22 @@ class VipMatchesFragment : Fragment(R.layout.vip_matches_layout){
             layoutManager = LinearLayoutManager(requireContext())
             isNestedScrollingEnabled = true
         }
+        //error toast
+        toast = StyleableToast.makeText(
+            requireContext(),
+            "an error occurred",
+            Toast.LENGTH_SHORT
+        )
 
         // search depending on app bar title... easy yeah?
-        bettingViewmodel.fetchBettingDataFromRepo(sumofSplittedPath)
-            .observe(viewLifecycleOwner, Observer {
-                checkForErrorInDataCall(it)
+        bettingViewModel.fetchBettingDataFromRepo(sumOfSplitPath)
+            .observe(viewLifecycleOwner, Observer { vipList ->
+                GlobalScope.launch(Dispatchers.Main) {
+                    delay(150L)
+                    checkForErrorInDataCall(vipList)
+
+                }
+
             })
 
 
@@ -66,28 +81,23 @@ class VipMatchesFragment : Fragment(R.layout.vip_matches_layout){
         setHasOptionsMenu(true)
     }
 
+
     private fun checkForErrorInDataCall(vipMatchItems: MutableList<VipMatchesItem>) {
-        if (!this.hasInternetConnection()) {
-            StyleableToast.makeText(
-                requireContext(),
-                "No internet connection", R.style.customToast1
-            ).show()
+        if (!this.hasInternetConnection() || vipMatchItems.isNullOrEmpty()) {
+            toast!!.show()
+            vipMatchesRV.visibility = View.GONE
             progressivebar.visibility = View.GONE
             imageView2.visibility = View.VISIBLE
             error_txt.visibility = View.VISIBLE
         } else {
+            toast!!.cancel()
+            vipMatchesRV.visibility = View.VISIBLE
+            progressivebar.visibility = View.GONE
             imageView2.visibility = View.GONE
             error_txt.visibility = View.GONE
-            progressivebar.visibility = View.VISIBLE
-            GlobalScope.launch(Dispatchers.Main) {
-                delay(200L)
-                if (vipMatchItems.isNotEmpty()) {
-                    progressivebar.visibility = View.GONE
-                }
-                vipMatchesItemsAdapter.differ.submitList(vipMatchItems)
-            }
-
+            vipMatchesItemsAdapter.differ.submitList(vipMatchItems)
         }
+
 
     }
 
@@ -100,7 +110,7 @@ class VipMatchesFragment : Fragment(R.layout.vip_matches_layout){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.refresh_data -> {
-                bettingViewmodel.refreshData(sumofSplittedPath)
+                bettingViewModel.refreshData(sumOfSplitPath)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -136,4 +146,6 @@ class VipMatchesFragment : Fragment(R.layout.vip_matches_layout){
         }
         return false
     }
+
+
 }

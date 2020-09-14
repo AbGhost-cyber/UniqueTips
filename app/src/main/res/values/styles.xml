@@ -7,10 +7,20 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/customDialogAnimation</item>
     </style>
+
     <style name="customToast1">
         <item name="colorBackground">@color/colorPrimary</item>
         <item name="textColor">@android:color/white</item>
         <item name="iconRight">@drawable/internet_no_icon</item>
+        <item name="fontFamily">@font/bree_serif</item>
+        <item name="length">LONG</item>
+        <item name="cornerRadius">10dp</item>
+    </style>
+
+    <style name="nullPointToast">
+        <item name="colorBackground">@color/colorPrimary</item>
+        <item name="textColor">@android:color/white</item>
+        <item name="iconRight">@drawable/null_error_24</item>
         <item name="fontFamily">@font/bree_serif</item>
         <item name="length">LONG</item>
         <item name="cornerRadius">10dp</item>
