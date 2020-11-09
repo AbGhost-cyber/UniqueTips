@@ -1,5 +1,6 @@
 package com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.models
 
+
 data class VipMatchesItem(
     val leagueName: String,
     val date: String,
@@ -13,5 +14,9 @@ data class VipMatchesItem(
     val isMatchPlayed: Boolean,
     val vipName: String,
     val isCorrectScore: Boolean,
-    val correctScore: String
+    val correctScore: String,
+    var agoTime: String = ""
 )
+
+
+

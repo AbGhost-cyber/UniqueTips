@@ -58,10 +58,42 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-condensed-medium"
                         android:padding="10dp"
-                        android:text="Play the matches one by one or systematically to increase your chance of winning.\n for example, play the first prediction single then play other matches in a different coupon"
+                        android:text="@string/support"
                         android:textAlignment="center"
                         android:textColor="@android:color/white"
                         android:textSize="17sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="3dp"
+                app:cardBackgroundColor="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/newTips"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/bree_serif"
+                        android:text="New Tips"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/oldTips"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/bree_serif"
+                        android:text="OLD tips"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -108,6 +140,22 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         app:layout_constraintVertical_bias="0.0" />
 
+    <TextView
+        android:id="@+id/filter_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="no tips available, please refresh"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="19sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:layout_constraintVertical_bias="0.0" />
 
 
     <ProgressBar

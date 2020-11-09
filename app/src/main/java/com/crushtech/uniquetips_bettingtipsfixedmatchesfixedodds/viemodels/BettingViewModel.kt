@@ -4,29 +4,34 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.models.VipMatchesItem
 import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.repos.BettingRepos
+import kotlinx.coroutines.launch
 
 
 class BettingViewModel(
     private var repos: BettingRepos,
-    private val app: Application
+    app: Application
 ) : AndroidViewModel(app) {
-    private var mutableData = MutableLiveData<MutableList<VipMatchesItem>>()
 
-    fun fetchBettingDataFromRepo(path: String): LiveData<MutableList<VipMatchesItem>> {
-        repos.getBettingDataFromFirebase(path).observeForever { userList ->
-            mutableData.value = userList
+    private val _mutableData = MutableLiveData<MutableList<VipMatchesItem>>()
+    val mutableData: LiveData<MutableList<VipMatchesItem>> = _mutableData
+
+
+    fun fetchBettingDataFromRepo(path: String) = viewModelScope.launch {
+        repos.getBettingDataFromFirebase(path).observeForever {
+            _mutableData.postValue(it)
         }
-        return mutableData
+
     }
 
     fun refreshData(path: String): LiveData<MutableList<VipMatchesItem>> {
         repos = BettingRepos()
         repos.getBettingDataFromFirebase(path).observeForever {
-            mutableData.value = it
+            _mutableData.value = it
         }
-        return mutableData
+        return _mutableData
     }
 
 }

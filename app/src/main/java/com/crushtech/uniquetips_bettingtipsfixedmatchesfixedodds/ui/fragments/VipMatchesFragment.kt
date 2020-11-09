@@ -9,9 +9,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.R
@@ -22,7 +22,6 @@ import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.viemodels.Betti
 import com.muddzdev.styleabletoastlibrary.StyleableToast
 import kotlinx.android.synthetic.main.vip_matches_layout.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -39,6 +38,7 @@ class VipMatchesFragment : Fragment(R.layout.vip_matches_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vipTipName = args.VipTipName
+
         (activity as BettingMainActivity).supportActionBar?.show()
         (activity as BettingMainActivity).supportActionBar?.title = vipTipName
         path = (activity as BettingMainActivity).supportActionBar?.title.toString()
@@ -61,24 +61,65 @@ class VipMatchesFragment : Fragment(R.layout.vip_matches_layout) {
         toast = StyleableToast.makeText(
             requireContext(),
             "an error occurred",
-            Toast.LENGTH_SHORT
+            R.style.nullPointToast
         )
 
         // search depending on app bar title... easy yeah?
         bettingViewModel.fetchBettingDataFromRepo(sumOfSplitPath)
-            .observe(viewLifecycleOwner, Observer { vipList ->
-                GlobalScope.launch(Dispatchers.Main) {
-                    delay(150L)
-                    checkForErrorInDataCall(vipList)
 
-                }
+        bettingViewModel.mutableData.observe(viewLifecycleOwner, Observer { vipItemList ->
+            bettingViewModel.viewModelScope.launch(Dispatchers.Main) {
+                delay(150L)
+                vipMatchesItemsAdapter.differ.submitList(vipItemList.reversed())
+                checkForErrorInDataCall(vipItemList)
+            }
 
-            })
+            newTips.setOnClickListener {
+                val listOfTimeAgos = listOf(
+                    "moments", "hour", "hours",
+                    "minutes", "minute", "second", "seconds", "future"
+                )
+                filterList(vipItemList, listOfTimeAgos)
+            }
+
+            oldTips.setOnClickListener {
+                val listOfTimeAgos = listOf(
+                    "day", "yesterday", "week", "days",
+                    "months", "years", "weeks", "month"
+                )
+                filterList(vipItemList, listOfTimeAgos)
+            }
+        })
 
 
 
 
         setHasOptionsMenu(true)
+    }
+
+
+    private fun filterList(vipItemList: List<VipMatchesItem>, timeFilterList: List<String>) {
+        vipMatchesRV.visibility = View.VISIBLE
+        val filteredList = mutableListOf<VipMatchesItem>()
+        var contains = false
+        vipItemList.forEachIndexed { _, vipMatchesItem ->
+            timeFilterList.forEach {
+                if (vipMatchesItem.agoTime.contains(it, true)) {
+                    contains = true
+                }
+            }
+            if (contains) {
+                vipMatchesRV.visibility = View.VISIBLE
+                filteredList.add(vipMatchesItem)
+                vipMatchesItemsAdapter.differ.submitList(filteredList)
+                filter_error.visibility = View.GONE
+
+            } else {
+                vipMatchesRV.visibility = View.INVISIBLE
+                filter_error.visibility = View.VISIBLE
+
+            }
+        }
     }
 
 
@@ -92,10 +133,10 @@ class VipMatchesFragment : Fragment(R.layout.vip_matches_layout) {
         } else {
             toast!!.cancel()
             vipMatchesRV.visibility = View.VISIBLE
+            filter_error.visibility = View.GONE
             progressivebar.visibility = View.GONE
             imageView2.visibility = View.GONE
             error_txt.visibility = View.GONE
-            vipMatchesItemsAdapter.differ.submitList(vipMatchItems)
         }
 
 
@@ -147,5 +188,18 @@ class VipMatchesFragment : Fragment(R.layout.vip_matches_layout) {
         return false
     }
 
+}
 
+fun main() {
+    val list = listOf("hour", "hours ago")
+    val num = "16 hours"
+    var contains = false
+    list.forEach { s ->
+        contains = num.contains(s)
+    }
+    if (contains) {
+        println("yes")
+    } else {
+        println("no")
+    }
 }

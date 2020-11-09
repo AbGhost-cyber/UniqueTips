@@ -107,7 +107,6 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="15sp" />
-
     </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

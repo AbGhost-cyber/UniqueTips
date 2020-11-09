@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.R
 import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.models.VipMatchesItem
+import com.crushtech.uniquetips_bettingtipsfixedmatchesfixedodds.ui.getTimeAgo
 import kotlinx.android.synthetic.main.vip_matches_items.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Suppress("DEPRECATION")
 class VipMatchesItemAdapter : RecyclerView.Adapter<VipMatchesItemAdapter.VipMatchesViewHolder>() {
@@ -33,14 +36,26 @@ class VipMatchesItemAdapter : RecyclerView.Adapter<VipMatchesItemAdapter.VipMatc
     ) {
         val items = differ.currentList[position]
         holder.itemView.apply {
+            try {
+                val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                dateFormat.timeZone = TimeZone.getTimeZone("GMT")
+                val tipTime = items.date
+                val date = dateFormat.parse(tipTime)
+                date?.let {
+                    val agoTime = getTimeAgo(it)
+                    items.agoTime = agoTime
+                }
 
+            } catch (e: Exception) {
+
+            }
             league_Name.text = items.leagueName
             teams.text = "${items.teamOne}  vs  ${items.teamTwo}"
 
             if (!items.isMatchPlayed) {
                 matchState.setImageResource(R.drawable.match_not_played_icon)
                 datePlusVipNamePlusOddPlusWon.text =
-                    "${items.date} ${items.vipName} \n(New Tip Added.Good Luck-:)"
+                    "${items.date} ${items.vipName} VIP"
                 HT_FT_scores.text = null
                 HT_FT_scores.setCompoundDrawablesRelativeWithIntrinsicBounds(
                     0,
@@ -70,10 +85,15 @@ class VipMatchesItemAdapter : RecyclerView.Adapter<VipMatchesItemAdapter.VipMatc
                 )
             }
 
+            if (items.vipName.toLowerCase(Locale.ROOT).contains("ht")
+                || items.vipName.toLowerCase(Locale.ROOT).contains("ft")
+            ) {
+                fixtures_inOdds.text = "HT/FT ${items.HalfAndFullTimeScoresInOdds}"
+            }
             if (items.isCorrectScore) {
                 fixtures_inOdds.text = "Correct Score: ${items.correctScore}"
             } else {
-                fixtures_inOdds.text = "HT/FT ${items.HalfAndFullTimeScoresInOdds}"
+                fixtures_inOdds.text = items.HalfAndFullTimeScoresInOdds
             }
             odds.text = items.odds
         }
